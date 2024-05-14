@@ -9,6 +9,7 @@
 package p4_sanchezm_fabregasm;
 
 //Importem la biblioteca de l'scanner
+
 import java.util.Scanner;
 
 public class P4_SanchezM_FabregasM {
@@ -22,11 +23,12 @@ public class P4_SanchezM_FabregasM {
     public static final int MAX_INTENTS = 3; // Nombre màxim del contador d'errors
     public static final int MAX_ENTRADES = 10; // Longitud dels arrays i nombre màxim de pacients a introduïr
     public static final int MIN_BOOLEA = 0, MAX_BOOLEA = 1;
+    public static final int MAX_COLUMN = 5;
 
     // Variables constants simptoma i exploració
     public static final int SI_0 = 0, SI_1 = 1, SI_2 = 2, SI_3 = 3;
     public static final int EX_0 = 0, EX_1 = 1, EX_2 = 2, EX_3 = 3;
-    
+
     // Definim Variables
     // Variables booleanes que s'utilitzen per al control d'errors
     static boolean error = false; // G
@@ -41,38 +43,38 @@ public class P4_SanchezM_FabregasM {
     /////////////
 
     // Procediment que mostra un error en pantalla, comprova en nombre d'errors i surt quan es compleix la condició
-    static void errorFnc (String errorString) {
+    static void errorFnc(String errorString) {
         // Borrem el contingut de l'scanner
         // M'ha costat molt sol·lucionar aquest bug. No entenc perquè si és un nombre sencer necessito nextLine() i si no next()
         if (noInt) {
             scanner.next();
-        } else {  
-            scanner.nextLine(); 
+        } else {
+            scanner.nextLine();
         }
         // Mostrem missatge d'error
-        System.out.println("\n[ERROR] "+errorString);
+        System.out.println("\n[ERROR] " + errorString);
         // Restem el contador d'errades
-        contadorErrades --;
-        System.out.println("\nEt queden "+contadorErrades+" intents per a introduïr una dada vàlida.");
+        contadorErrades--;
+        System.out.println("\nEt queden " + contadorErrades + " intents per a introduïr una dada vàlida.");
         // Si el contador d'errades < 1, cancel·lem l'entrada de dades.
-        if (contadorErrades < 1) {    
-            error=true;
+        if (contadorErrades < 1) {
+            error = true;
         }
     }
 
     // Funció per a demanar un nombre sencer i emmagatzemar-la en una variable. (TIS, prioritat, símptoma, exploració, nouUsuari...)
     // Definim com es crida el mètode. Per exemple es cridaria: tis = introduirSencer("Introdueïx el codi TIS: ",MIN_TIS,MAX_TIS);
     static int introduirSencer(String textAMostrar, int valorMinim, int valorMaxim) {
-        
+
         int sencerDEntrada = 0;
         boolean dadaCorrecta = false; // Variable per validar les dades d'entrada
 
         // Iniciem un bucle que es repetirà mentre la dada no sigui correcta i no s'hagi activat el trigger error.
         while (!dadaCorrecta && !error) {
-            System.out.println(); 
+            System.out.println();
             // Preguntem a l'usuari per les dades a introduir i li diem els valors que acceptem
-            System.out.print/*ln*/(textAMostrar+" ("+valorMinim+" / "+valorMaxim+") ");
-                
+            System.out.print/*ln*/(textAMostrar + " (" + valorMinim + " / " + valorMaxim + ") ");
+
             if (scanner.hasNextInt()) {
                 sencerDEntrada = scanner.nextInt();
                 // Si es enter comprovem si és entre els nombres acceptats
@@ -80,13 +82,13 @@ public class P4_SanchezM_FabregasM {
                     dadaCorrecta = true;
                 } else {
                     // Si no passa la validació mostrem un error
-                    errorFnc("La dada introduida no és vàlida"); 
+                    errorFnc("La dada introduida no és vàlida");
                 }
             } else {
                 //Si no és un enter mostrem un error
                 // M'ha costat molt sol·lucionar un bug, però per algun motiu cal executar unes ordres diferents i per això indico al mètode error que no és un nombre sencer
                 noInt = true; // Indiquem a l'error que no és un nombre sencer
-                errorFnc("No has introduit un nombre sencer"); 
+                errorFnc("No has introduit un nombre sencer");
                 noInt = false;
             }
         } // Sortim del bucle
@@ -98,22 +100,49 @@ public class P4_SanchezM_FabregasM {
         return sencerDEntrada;
     }
 
+    // Mètode per unir tots els arrays en un array bidimensional
+    public static int[][] crearArrayBidimensional(int[] tisArray, int[] simptomaArray, int[] exploracioArray, int[] prioritatArray, int[] temperturaArray) {
+
+        int[][] dadesPacient = new int[MAX_ENTRADES][MAX_COLUMN];
+        // copiem els arrys dintre del array bidimensional
+        for (int i = 0; i < dadesPacient.length; i++) {
+            dadesPacient[i][0] = tisArray[i];
+            dadesPacient[i][1] = simptomaArray[i];
+            dadesPacient[i][2] = exploracioArray[i];
+            dadesPacient[i][3] = prioritatArray[i];
+            dadesPacient[i][4] = temperturaArray[i];
+        }
+        return dadesPacient;
+    }
+
+    public static void llegirDadesPacients(int[][] pacientDades, int numPacients) {
+        System.out.println("---------------------");
+        System.out.println("Llista de Pacients");
+        System.out.println("Tis\t\tSimptoma\texploracio\tprioritat\ttemperatura");
+        for (int i = 0; i < numPacients; i++) {
+            System.out.println(pacientDades[i][0] + "\t\t" + pacientDades[i][1] + "\t\t\t" + pacientDades[i][2] + "\t\t\t" + pacientDades[i][3] + "\t\t\t" + pacientDades[i][4]);
+
+
+        }
+    }
+
+
     //////////////////////
     // MÈTODE PRINCIPAL //
     //////////////////////
 
     public static void main(String[] args) {
-        
+
         // Variables
-        int prioritat = 0, temperatura = 0, tis = 0, simptoma = 0,exploracio =0, nouPacient = 0;
+        int prioritat = 0, temperatura = 0, tis = 0, simptoma = 0, exploracio = 0, nouPacient = 0;
         String simptomaString = "";
         String exploracioString = "";
 
         int filtrarSimptoma = 0, simptomaSelleccionat = 0, estadistiques = 0;
 
         int contadorDolor = 0, contadorLesio = 0, contadorFebra = 0, contadorConfusio = 0;
-        
-        String exploracio0="", exploracio1="", exploracio2="", exploracio3="";
+
+        String exploracio0 = "", exploracio1 = "", exploracio2 = "", exploracio3 = "";
         int contadorPacients = 0;
         boolean sortir = false;
 
@@ -123,8 +152,9 @@ public class P4_SanchezM_FabregasM {
         int[] exploracioArray = new int[MAX_ENTRADES];
         int[] prioritatArray = new int[MAX_ENTRADES];
         int[] temperaturaArray = new int[MAX_ENTRADES];
+        int[][] dadesPacients = new int[MAX_ENTRADES][MAX_COLUMN];
 
-        int [] contadorPrior = {0,0,0,0,0,0}; // Aquest array és a part. NO MULTIDIMENSIONAL
+        int[] contadorPrior = {0, 0, 0, 0, 0, 0}; // Aquest array és a part. NO MULTIDIMENSIONAL
 
         // Definim un bucle a l'inici del programa que en arribar al final del mateix es repetirà a no ser que no es desitji sortir
         while (!sortir) {
@@ -144,31 +174,43 @@ public class P4_SanchezM_FabregasM {
                 System.out.println("1- Lesió traumàtica");
                 System.out.println("2- Febra alta");
                 System.out.println("3- Confusió o desorientació");
-                
+
                 simptoma = introduirSencer("Sel·leccioni un símptoma:", MIN_SINTOMA, MAX_SINTOMA);
-                
-            } 
-            
-            if (!error && !sortir) {        
+
+            }
+
+            if (!error && !sortir) {
                 // Switch de exploració en funció del símptoma
-                switch (simptoma) { 
+                switch (simptoma) {
                     case SI_0: // Dolor 
                         // Definim el nom del símptoma
                         simptomaString = "Dolor";
                         // En funció del símptoma sel·leccionat, definim les variables que corresponen a les exploracions
-                        exploracio0="Dolor toràcic";exploracio1="Dolor abdominal";exploracio2="Dolor cap";exploracio3="Migranya";
+                        exploracio0 = "Dolor toràcic";
+                        exploracio1 = "Dolor abdominal";
+                        exploracio2 = "Dolor cap";
+                        exploracio3 = "Migranya";
                         break;
                     case SI_1: // Lesió traumàtica
                         simptomaString = "Lesió traumàtica";
-                        exploracio0="Fractura òssia";exploracio1="Ferida de bala";exploracio2="Cremada";exploracio3="Lesió cerebral traumàtica";
+                        exploracio0 = "Fractura òssia";
+                        exploracio1 = "Ferida de bala";
+                        exploracio2 = "Cremada";
+                        exploracio3 = "Lesió cerebral traumàtica";
                         break;
                     case SI_2: // Febra alta
                         simptomaString = "Febra alta";
-                        exploracio0="Pneumònia";exploracio1="Meningitis";exploracio2="Infecció viral";exploracio3="Reacció al·lèrgica";
+                        exploracio0 = "Pneumònia";
+                        exploracio1 = "Meningitis";
+                        exploracio2 = "Infecció viral";
+                        exploracio3 = "Reacció al·lèrgica";
                         break;
                     case SI_3: // Confusió o desorientació
                         simptomaString = "Confusió o desorientació";
-                        exploracio0="Intoxicació per drogues o alcohol";exploracio1="Deshidratació severa";exploracio2="Accident cerebrovascular";exploracio3="Hipoglucèmia severa";
+                        exploracio0 = "Intoxicació per drogues o alcohol";
+                        exploracio1 = "Deshidratació severa";
+                        exploracio2 = "Accident cerebrovascular";
+                        exploracio3 = "Hipoglucèmia severa";
                         break;
                     default: // Error que no hauria de succeïr sota cap circumstància. Sortim del programa degut a que és un error descontrolat.
                         error = true; // Establim error a true perquè ja no segueixi demanant més dades.
@@ -176,28 +218,36 @@ public class P4_SanchezM_FabregasM {
                         sortir = true; // Establim sortir a true per sortir del bucle de demanar un nou usuari.
                 }
             }
-            
+
             // Si no s'ha produït un error, llistem les exploracions possibles
             if (!error && !sortir) {
                 // Preguntem el tipus d'exploració
                 System.out.println("\nLlistat d'exploracions possibles:");
                 System.out.println();
-                System.out.println("0- "+exploracio0);
-                System.out.println("1- "+exploracio1);
-                System.out.println("2- "+exploracio2);
-                System.out.println("3- "+exploracio3);
+                System.out.println("0- " + exploracio0);
+                System.out.println("1- " + exploracio1);
+                System.out.println("2- " + exploracio2);
+                System.out.println("3- " + exploracio3);
             }
-            
+
             exploracio = introduirSencer("Sel·leccioni una exploració:", MIN_EXPLORACIO, MAX_EXPLORACIO);
 
             if (!error && !sortir) {
                 // en funció del valor sel·leccionat per l'usuari, establim el nom de la variable exploracioString
-                switch (exploracio){
+                switch (exploracio) {
 
-                    case EX_0: exploracioString = exploracio0; break;
-                    case EX_1: exploracioString = exploracio1; break;
-                    case EX_2: exploracioString = exploracio2; break;
-                    case EX_3: exploracioString = exploracio3; break;
+                    case EX_0:
+                        exploracioString = exploracio0;
+                        break;
+                    case EX_1:
+                        exploracioString = exploracio1;
+                        break;
+                    case EX_2:
+                        exploracioString = exploracio2;
+                        break;
+                    case EX_3:
+                        exploracioString = exploracio3;
+                        break;
                     // En el cas que no estigui entre els valors esperats, sortim mostrant un error 
                     default: // Error que no hauria de succeïr sota cap circumstància. Sortim del programa degut a que és un error descontrolat.
                         error = true; // Establim error a true perquè ja no segueixi demanant més dades.
@@ -211,23 +261,26 @@ public class P4_SanchezM_FabregasM {
 
             // Demanar temperatura
             temperatura = introduirSencer("Introdueixi la temperatura corporal del pacient:", MIN_TEMP, MAX_TEMP);
-         
+
             // Si no hi ha cap error fins aquí
             if (!error && !sortir) {
-                contadorPacients ++; // Contem un pacient més
+                contadorPacients++; // Contem un pacient més
 
                 // Emmagatzamem les dades al seu corresponent array
                 // el pacient 1, correspòn a la posiciò 0 del array, el pacient 2 a la posició 1, etc.
-                tisArray[contadorPacients - 1] = tis; 
+                tisArray[contadorPacients - 1] = tis;
                 simptomaArray[contadorPacients - 1] = simptoma;
                 exploracioArray[contadorPacients - 1] = exploracio;
                 prioritatArray[contadorPacients - 1] = prioritat;
                 temperaturaArray[contadorPacients - 1] = temperatura;
+
+                dadesPacients = crearArrayBidimensional(tisArray, simptomaArray, exploracioArray, prioritatArray, temperaturaArray);
+
             }
 
             // imprimim el contador de pacients (independentment que hi hagi error o no)
             System.out.println();
-            System.out.println("Has introduït "+contadorPacients+" pacients.");
+            System.out.println("Has introduït " + contadorPacients + " pacients.");
 
             // reiniciem contador d'errades
             contadorErrades = MAX_INTENTS;
@@ -264,30 +317,42 @@ public class P4_SanchezM_FabregasM {
             // System.out.printf(*Format:...., +Args: -----)
             System.out.printf("%-15s %-30s %-35s %-25s %-20s\n", "TIS", "Símptoma", "Exploració", "Nivell prioritat", "Temperatura actual");
 
-            for(int i=0; i < tisArray.length; i++){  
+            for (int i = 0; i < tisArray.length; i++) {
                 // Utiltizem la variable TIS per validar la linea. Descartant totes les que tinguin el valor per defecte.
                 if (tisArray[i] != 0) {
                     simptoma = simptomaArray[i];
                     exploracio = exploracioArray[i];
 
-                    switch (simptoma) { 
+                    switch (simptoma) {
                         case SI_0: // Dolor 
                             // Definim el nom del símptoma
                             simptomaString = "Dolor";
                             // En funció del símptoma sel·leccionat, definim les variables que corresponen a les exploracions
-                            exploracio0="Dolor toràcic";exploracio1="Dolor abdominal";exploracio2="Dolor cap";exploracio3="Migranya";
+                            exploracio0 = "Dolor toràcic";
+                            exploracio1 = "Dolor abdominal";
+                            exploracio2 = "Dolor cap";
+                            exploracio3 = "Migranya";
                             break;
                         case SI_1: // Lesió traumàtica
                             simptomaString = "Lesió traumàtica";
-                            exploracio0="Fractura òssia";exploracio1="Ferida de bala";exploracio2="Cremada";exploracio3="Lesió cerebral traumàtica";
+                            exploracio0 = "Fractura òssia";
+                            exploracio1 = "Ferida de bala";
+                            exploracio2 = "Cremada";
+                            exploracio3 = "Lesió cerebral traumàtica";
                             break;
                         case SI_2: // Febra alta
                             simptomaString = "Febra alta";
-                            exploracio0="Pneumònia";exploracio1="Meningitis";exploracio2="Infecció viral";exploracio3="Reacció al·lèrgica";
+                            exploracio0 = "Pneumònia";
+                            exploracio1 = "Meningitis";
+                            exploracio2 = "Infecció viral";
+                            exploracio3 = "Reacció al·lèrgica";
                             break;
                         case SI_3: // Confusió o desorientació
                             simptomaString = "Confusió o desorientació";
-                            exploracio0="Intoxicació per drogues o alcohol";exploracio1="Deshidratació severa";exploracio2="Accident cerebrovascular";exploracio3="Hipoglucèmia severa";
+                            exploracio0 = "Intoxicació per drogues o alcohol";
+                            exploracio1 = "Deshidratació severa";
+                            exploracio2 = "Accident cerebrovascular";
+                            exploracio3 = "Hipoglucèmia severa";
                             break;
                         default: // Error que no hauria de succeïr sota cap circumstància. Sortim del programa degut a que és un error descontrolat.
                             error = true; // Establim error a true perquè ja no segueixi demanant més dades.
@@ -295,12 +360,20 @@ public class P4_SanchezM_FabregasM {
                             sortir = true; // Establim sortir a true per sortir del bucle de demanar un nou usuari.
                     }
 
-                    switch (exploracio){
+                    switch (exploracio) {
 
-                        case EX_0: exploracioString = exploracio0; break;
-                        case EX_1: exploracioString = exploracio1; break;
-                        case EX_2: exploracioString = exploracio2; break;
-                        case EX_3: exploracioString = exploracio3; break;
+                        case EX_0:
+                            exploracioString = exploracio0;
+                            break;
+                        case EX_1:
+                            exploracioString = exploracio1;
+                            break;
+                        case EX_2:
+                            exploracioString = exploracio2;
+                            break;
+                        case EX_3:
+                            exploracioString = exploracio3;
+                            break;
                         // En el cas que no estigui entre els valors esperats, sortim mostrant un error 
                         default: // Error que no hauria de succeïr sota cap circumstància. Sortim del programa degut a que és un error descontrolat.
                             error = true; // Establim error a true perquè ja no segueixi demanant més dades.
@@ -310,58 +383,58 @@ public class P4_SanchezM_FabregasM {
                     }
 
                     //System.out.print(tisArray[i]+" "+simptomaString+" "+exploracioString+" "+prioritatArray[i]+" "+temperaturaArray[i] + "\n"); 
-                    System.out.printf("%-15d %-30s %-35s %-25d %-20d\n", tisArray[i],simptomaString,exploracioString,prioritatArray[i],temperaturaArray[i]);
-                } 
+                    System.out.printf("%-15d %-30s %-35s %-25d %-20d\n", tisArray[i], simptomaString, exploracioString, prioritatArray[i], temperaturaArray[i]);
+                }
             } // Sortim del bucle de imprimir pacients
         }
 
-        filtrarSimptoma=introduirSencer("Vol consultar per tipus de símptoma?",MIN_BOOLEA, MAX_BOOLEA);
+        filtrarSimptoma = introduirSencer("Vol consultar per tipus de símptoma?", MIN_BOOLEA, MAX_BOOLEA);
 
-        if (filtrarSimptoma == 1 && !error){
-            
+        if (filtrarSimptoma == 1 && !error) {
+
             System.out.println("\nLlistat de símptomes:");
             System.out.println();
             System.out.println("0- Dolor");
             System.out.println("1- Lesió traumàtica");
             System.out.println("2- Febra alta");
             System.out.println("3- Confusió o desorientació");
-            
-            simptomaSelleccionat=introduirSencer("Sel·leccioni un símptoma:", MIN_SINTOMA , MAX_SINTOMA);
+
+            simptomaSelleccionat = introduirSencer("Sel·leccioni un símptoma:", MIN_SINTOMA, MAX_SINTOMA);
         }
 
         // Ordenació bombolla per prioritat
         int temp = 0; // Creem una variable temporal per intercanviar nombres
         // Definim un bucle que es repetirà per l'array de codis
-        for(int i=0; i < MAX_ENTRADES; i++){  
+        for (int i = 0; i < MAX_ENTRADES; i++) {
             // Es defineix un segon bucle
-            for(int j=1; j < (MAX_ENTRADES-i); j++){  
+            for (int j = 1; j < (MAX_ENTRADES - i); j++) {
                 //comprovem si la prioitat de l'element actual és més petit que el següent
-                if(prioritatArray[j-1] < prioritatArray[j]){  
-                    
-                    // Si és més petit, els intercanviem utilitzant la variable temporal.
-                    temp = prioritatArray[j-1];  
-                    prioritatArray[j-1] = prioritatArray[j];  
-                    prioritatArray[j] = temp;  
-                    
-                    // Ordenem per prioritat, pero hem de canviar l'ordre a tots els arrays
-                    temp = tisArray[j-1];
-                    tisArray[j-1] = tisArray[j];  
-                    tisArray[j] = temp;
-                    
-                    temp = simptomaArray[j-1];
-                    simptomaArray[j-1] = simptomaArray[j];  
-                    simptomaArray[j] = temp;  
+                if (prioritatArray[j - 1] < prioritatArray[j]) {
 
-                    temp = exploracioArray[j-1];
-                    exploracioArray[j-1] = exploracioArray[j];  
+                    // Si és més petit, els intercanviem utilitzant la variable temporal.
+                    temp = prioritatArray[j - 1];
+                    prioritatArray[j - 1] = prioritatArray[j];
+                    prioritatArray[j] = temp;
+
+                    // Ordenem per prioritat, pero hem de canviar l'ordre a tots els arrays
+                    temp = tisArray[j - 1];
+                    tisArray[j - 1] = tisArray[j];
+                    tisArray[j] = temp;
+
+                    temp = simptomaArray[j - 1];
+                    simptomaArray[j - 1] = simptomaArray[j];
+                    simptomaArray[j] = temp;
+
+                    temp = exploracioArray[j - 1];
+                    exploracioArray[j - 1] = exploracioArray[j];
                     exploracioArray[j] = temp;
 
-                    temp = temperaturaArray[j-1];
-                    temperaturaArray[j-1] = temperaturaArray[j];  
+                    temp = temperaturaArray[j - 1];
+                    temperaturaArray[j - 1] = temperaturaArray[j];
                     temperaturaArray[j] = temp;
-                }  
-                          
-            }  
+                }
+
+            }
         }
 
         if (filtrarSimptoma == 1 && !error) {
@@ -370,30 +443,42 @@ public class P4_SanchezM_FabregasM {
             // System.out.printf(*Format:...., +Args: -----)
             System.out.printf("%-15s %-30s %-35s %-25s %-20s\n", "TIS", "Símptoma", "Exploració", "Nivell prioritat", "Temperatura actual");
 
-            for(int i=0; i < tisArray.length; i++){  
+            for (int i = 0; i < tisArray.length; i++) {
                 // Utiltizem la variable TIS per validar la linea. Descartant totes les que tinguin el valor per defecte.
                 if (tisArray[i] != 0 && simptomaArray[i] == simptomaSelleccionat) {
                     simptoma = simptomaArray[i];
                     exploracio = exploracioArray[i];
 
-                    switch (simptoma) { 
+                    switch (simptoma) {
                         case SI_0: // Dolor 
                             // Definim el nom del símptoma
                             simptomaString = "Dolor";
                             // En funció del símptoma sel·leccionat, definim les variables que corresponen a les exploracions
-                            exploracio0="Dolor toràcic";exploracio1="Dolor abdominal";exploracio2="Dolor cap";exploracio3="Migranya";
+                            exploracio0 = "Dolor toràcic";
+                            exploracio1 = "Dolor abdominal";
+                            exploracio2 = "Dolor cap";
+                            exploracio3 = "Migranya";
                             break;
                         case SI_1: // Lesió traumàtica
                             simptomaString = "Lesió traumàtica";
-                            exploracio0="Fractura òssia";exploracio1="Ferida de bala";exploracio2="Cremada";exploracio3="Lesió cerebral traumàtica";
+                            exploracio0 = "Fractura òssia";
+                            exploracio1 = "Ferida de bala";
+                            exploracio2 = "Cremada";
+                            exploracio3 = "Lesió cerebral traumàtica";
                             break;
                         case SI_2: // Febra alta
                             simptomaString = "Febra alta";
-                            exploracio0="Pneumònia";exploracio1="Meningitis";exploracio2="Infecció viral";exploracio3="Reacció al·lèrgica";
+                            exploracio0 = "Pneumònia";
+                            exploracio1 = "Meningitis";
+                            exploracio2 = "Infecció viral";
+                            exploracio3 = "Reacció al·lèrgica";
                             break;
                         case SI_3: // Confusió o desorientació
                             simptomaString = "Confusió o desorientació";
-                            exploracio0="Intoxicació per drogues o alcohol";exploracio1="Deshidratació severa";exploracio2="Accident cerebrovascular";exploracio3="Hipoglucèmia severa";
+                            exploracio0 = "Intoxicació per drogues o alcohol";
+                            exploracio1 = "Deshidratació severa";
+                            exploracio2 = "Accident cerebrovascular";
+                            exploracio3 = "Hipoglucèmia severa";
                             break;
                         default: // Error que no hauria de succeïr sota cap circumstància. Sortim del programa degut a que és un error descontrolat.
                             error = true; // Establim error a true perquè ja no segueixi demanant més dades.
@@ -401,12 +486,20 @@ public class P4_SanchezM_FabregasM {
                             sortir = true; // Establim sortir a true per sortir del bucle de demanar un nou usuari.
                     }
 
-                    switch (exploracio){
+                    switch (exploracio) {
 
-                        case EX_0: exploracioString = exploracio0; break;
-                        case EX_1: exploracioString = exploracio1; break;
-                        case EX_2: exploracioString = exploracio2; break;
-                        case EX_3: exploracioString = exploracio3; break;
+                        case EX_0:
+                            exploracioString = exploracio0;
+                            break;
+                        case EX_1:
+                            exploracioString = exploracio1;
+                            break;
+                        case EX_2:
+                            exploracioString = exploracio2;
+                            break;
+                        case EX_3:
+                            exploracioString = exploracio3;
+                            break;
                         // En el cas que no estigui entre els valors esperats, sortim mostrant un error 
                         default: // Error que no hauria de succeïr sota cap circumstància. Sortim del programa degut a que és un error descontrolat.
                             error = true; // Establim error a true perquè ja no segueixi demanant més dades.
@@ -416,50 +509,62 @@ public class P4_SanchezM_FabregasM {
                     }
 
                     //System.out.print(tisArray[i]+" "+simptomaString+" "+exploracioString+" "+prioritatArray[i]+" "+temperaturaArray[i] + "\n"); 
-                    System.out.printf("%-15d %-30s %-35s %-25d %-20d\n", tisArray[i],simptomaString,exploracioString,prioritatArray[i],temperaturaArray[i]);
-                } 
+                    System.out.printf("%-15d %-30s %-35s %-25d %-20d\n", tisArray[i], simptomaString, exploracioString, prioritatArray[i], temperaturaArray[i]);
+                }
             } // Sortim del bucle de imprimir pacients
         }
 
-        estadistiques=introduirSencer("Vols veure un resum estadístic de les dades", MIN_BOOLEA, MAX_BOOLEA);
+        estadistiques = introduirSencer("Vols veure un resum estadístic de les dades", MIN_BOOLEA, MAX_BOOLEA);
 
         // Si selecciona 1 mostrem estadístiques
         if (estadistiques == 1 && !error) {
-            System.out.println("\nNúmero de pacients introduïts:"+contadorPacients);
+            System.out.println("\nNúmero de pacients introduïts:" + contadorPacients);
             System.out.println("Número de pacients per símptomes:");
-            
+
             // Recorrem l'array de simptoma i comptem
-            for (int i=0; i < simptomaArray.length; i++) {
+            for (int i = 0; i < simptomaArray.length; i++) {
                 if (simptomaArray[i] == 0 && tisArray[i] != 0) { // Utilitzem la variable tis per descartar els usuaris buits del array
-                    contadorDolor ++; 
-                } 
-                if (simptomaArray[i] == 1) { contadorLesio ++; }
-                if (simptomaArray[i] == 2) { contadorFebra ++; }
-                if (simptomaArray[i] == 3) { contadorConfusio ++; }
+                    contadorDolor++;
+                }
+                if (simptomaArray[i] == 1) {
+                    contadorLesio++;
+                }
+                if (simptomaArray[i] == 2) {
+                    contadorFebra++;
+                }
+                if (simptomaArray[i] == 3) {
+                    contadorConfusio++;
+                }
 
             }
 
             // Imprimim les estadístiques
-            System.out.printf("%-2s %-10s %-20s %-15s %-20s\n", "","Dolor:","Lesió traumàtica:","Febra alta:","Confusió o desorientació");
-            System.out.printf("%-2s %-10d %-20d %-15d %-20d\n", "",contadorDolor,contadorLesio,contadorFebra,contadorConfusio);
+            System.out.printf("%-2s %-10s %-20s %-15s %-20s\n", "", "Dolor:", "Lesió traumàtica:", "Febra alta:", "Confusió o desorientació");
+            System.out.printf("%-2s %-10d %-20d %-15d %-20d\n", "", contadorDolor, contadorLesio, contadorFebra, contadorConfusio);
 
             System.out.println("Comptador de pacients per prioritat:");
 
-            
+
             // Recorrem l'Array de prioritat i sumem les prioritats
-            for (int i=0; i < prioritatArray.length; i++) {
-            
+            for (int i = 0; i < prioritatArray.length; i++) {
+
                 if (tisArray[i] != 0) {
                     contadorPrior[prioritatArray[i]]++;
                 }
             }
 
-            System.out.printf("%-2s %-17s %-17s %-17s %-17s %-17s %-17s\n", "","Prioritat 0:","Prioritat 1:","Prioritat 2:","Prioritat 3:","Prioritat 4:","Prioritat 5:");
-            System.out.printf("%-2s %-17d %-17d %-17d %-17d %-17d %-17d\n", "",contadorPrior[0],contadorPrior[1],contadorPrior[2],contadorPrior[3],contadorPrior[4],contadorPrior[5]);
-            
+            System.out.printf("%-2s %-17s %-17s %-17s %-17s %-17s %-17s\n", "", "Prioritat 0:", "Prioritat 1:", "Prioritat 2:", "Prioritat 3:", "Prioritat 4:", "Prioritat 5:");
+            System.out.printf("%-2s %-17d %-17d %-17d %-17d %-17d %-17d\n", "", contadorPrior[0], contadorPrior[1], contadorPrior[2], contadorPrior[3], contadorPrior[4], contadorPrior[5]);
+
             // Tanquem l'scanner
             scanner.close();
         }
-        
+        if (contadorPacients == 0) {
+            System.out.println("No hi ha cap pacient en el registre");
+        } else {
+            llegirDadesPacients(dadesPacients, contadorPacients);
+        }
+
+
     }
 }
