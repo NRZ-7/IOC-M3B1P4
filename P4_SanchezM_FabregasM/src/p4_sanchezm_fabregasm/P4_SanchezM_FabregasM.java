@@ -1,11 +1,10 @@
- 
 // ******************************************************************************************
 // * This project is licensed under the GNU GPL v3.0
 // * https://www.gnu.org/licenses/gpl-3.0.html
 // ******************************************************************************************
-//	@file Version: 3.0
-//	@file Name: P3_FabregasM.java
-//	@file Author: Jordi Fàbregas
+//	@file Version: 4 beta 1
+//	@file Name: P4_SanchezM_FabregasM.java
+//	@file Authors: Juanma Sánchez & Jordi Fàbregas
 
 package p4_sanchezm_fabregasm;
 
@@ -22,6 +21,7 @@ public class P4_SanchezM_FabregasM {
     public static final int MIN_TEMP = 27, MAX_TEMP = 45;
     public static final int MAX_INTENTS = 3; // Nombre màxim del contador d'errors
     public static final int MAX_ENTRADES = 10; // Longitud dels arrays i nombre màxim de pacients a introduïr
+    public static final int MIN_BOOLEA = 0, MAX_BOOLEA = 1;
 
     // Variables constants simptoma i exploració
     public static final int SI_0 = 0, SI_1 = 1, SI_2 = 2, SI_3 = 3;
@@ -98,35 +98,6 @@ public class P4_SanchezM_FabregasM {
         return sencerDEntrada;
     }
 
-     /*
-    // Aquest mètode, agafa un símptoma(int) d'entrada i defineix el nom del símptoma i els noms de les possibles exploracions
-    static void simptomaFnc(simptoma) {
-        switch (simptoma) { 
-            case SI_0: // Dolor 
-                // Definim el nom del símptoma
-                simptomaString = "Dolor";
-                // En funció del símptoma sel·leccionat, definim les variables que corresponen a les exploracions
-                exploracio0="Dolor toràcic";exploracio1="Dolor abdominal";exploracio2="Dolor cap";exploracio3="Migranya";
-                break;
-            case SI_1: // Lesió traumàtica
-                simptomaString = "Lesió traumàtica";
-                exploracio0="Fractura òssia";exploracio1="Ferida de bala";exploracio2="Cremada";exploracio3="Lesió cerebral traumàtica";
-                break;
-            case SI_2: // Febra alta
-                simptomaString = "Febra alta";
-                exploracio0="Pneumònia";exploracio1="Meningitis";exploracio2="Infecció viral";exploracio3="Reacció al·lèrgica";
-                break;
-            case SI_3: // Confusió o desorientació
-                simptomaString = "Confusió o desorientació";
-                exploracio0="Intoxicació per drogues o alcohol";exploracio1="Deshidratació severa";exploracio2="Accident cerebrovascular";exploracio3="Hipoglucèmia severa";
-                break;
-            default: // Error que no hauria de succeïr sota cap circumstància. Sortim del programa degut a que és un error descontrolat.
-                error = true; // Establim error a true perquè ja no segueixi demanant més dades.
-                errorFnc("Error no esperat, siusplau avisa a l'autor.");
-                sortir = true; // Establim sortir a true per sortir del bucle de demanar un nou usuari.
-        }
-    }*/
-
     //////////////////////
     // MÈTODE PRINCIPAL //
     //////////////////////
@@ -141,7 +112,6 @@ public class P4_SanchezM_FabregasM {
         int filtrarSimptoma = 0, simptomaSelleccionat = 0, estadistiques = 0;
 
         int contadorDolor = 0, contadorLesio = 0, contadorFebra = 0, contadorConfusio = 0;
-        int contadorPrior0 = 0, contadorPrior1 = 0, contadorPrior2 = 0, contadorPrior3 =0, contadorPrior4 = 0, contadorPrior5 = 0;
         
         String exploracio0="", exploracio1="", exploracio2="", exploracio3="";
         int contadorPacients = 0;
@@ -153,6 +123,8 @@ public class P4_SanchezM_FabregasM {
         int[] exploracioArray = new int[MAX_ENTRADES];
         int[] prioritatArray = new int[MAX_ENTRADES];
         int[] temperaturaArray = new int[MAX_ENTRADES];
+
+        int [] contadorPrior = {0,0,0,0,0,0}; // Aquest array és a part. NO MULTIDIMENSIONAL
 
         // Definim un bucle a l'inici del programa que en arribar al final del mateix es repetirà a no ser que no es desitji sortir
         while (!sortir) {
@@ -267,7 +239,7 @@ public class P4_SanchezM_FabregasM {
             // (al arribar aquí error sempre serà fals i el contadorErrades estarà al màxim)
 
             if (contadorPacients < MAX_ENTRADES) { // Només s'executarà si el contador de pacients és inferior a la longitud del array
-                nouPacient = introduirSencer("Vol introduïr un altre pacient?:", 0, 1);
+                nouPacient = introduirSencer("Vol introduïr un altre pacient?:", MIN_BOOLEA, MAX_BOOLEA);
             } else {
                 System.out.println("\nS'ha arribat al límit de pacients que es poden introduïr.");
                 nouPacient = 0;
@@ -343,7 +315,7 @@ public class P4_SanchezM_FabregasM {
             } // Sortim del bucle de imprimir pacients
         }
 
-        filtrarSimptoma=introduirSencer("Vol consultar per tipus de símptoma?", 0, 1);
+        filtrarSimptoma=introduirSencer("Vol consultar per tipus de símptoma?",MIN_BOOLEA, MAX_BOOLEA);
 
         if (filtrarSimptoma == 1 && !error){
             
@@ -449,7 +421,7 @@ public class P4_SanchezM_FabregasM {
             } // Sortim del bucle de imprimir pacients
         }
 
-        estadistiques=introduirSencer("Vols veure un resum estadístic de les dades", 0, 1);
+        estadistiques=introduirSencer("Vols veure un resum estadístic de les dades", MIN_BOOLEA, MAX_BOOLEA);
 
         // Si selecciona 1 mostrem estadístiques
         if (estadistiques == 1 && !error) {
@@ -473,20 +445,17 @@ public class P4_SanchezM_FabregasM {
 
             System.out.println("Comptador de pacients per prioritat:");
 
-            for (int i=0; i < simptomaArray.length; i++) {
-                if (simptomaArray[i] == 0 && tisArray[i] != 0) { // Utilitzem la variable tis per descartar els usuaris buits del array
-                    contadorPrior0 ++; 
+            
+            // Recorrem l'Array de prioritat i sumem les prioritats
+            for (int i=0; i < prioritatArray.length; i++) {
+            
+                if (tisArray[i] != 0) {
+                    contadorPrior[prioritatArray[i]]++;
                 }
-                if (simptomaArray[i] == 1) { contadorPrior1 ++; }
-                if (simptomaArray[i] == 2) { contadorPrior2 ++; }
-                if (simptomaArray[i] == 3) { contadorPrior3 ++; }
-                if (simptomaArray[i] == 4) { contadorPrior4 ++; }
-                if (simptomaArray[i] == 5) { contadorPrior5 ++; }
-
             }
 
             System.out.printf("%-2s %-17s %-17s %-17s %-17s %-17s %-17s\n", "","Prioritat 0:","Prioritat 1:","Prioritat 2:","Prioritat 3:","Prioritat 4:","Prioritat 5:");
-            System.out.printf("%-2s %-17d %-17d %-17d %-17d %-17d %-17d\n", "",contadorPrior0,contadorPrior1,contadorPrior2,contadorPrior3,contadorPrior4,contadorPrior5);
+            System.out.printf("%-2s %-17d %-17d %-17d %-17d %-17d %-17d\n", "",contadorPrior[0],contadorPrior[1],contadorPrior[2],contadorPrior[3],contadorPrior[4],contadorPrior[5]);
             
             // Tanquem l'scanner
             scanner.close();
