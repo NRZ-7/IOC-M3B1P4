@@ -24,11 +24,13 @@ public class P4_SanchezM_FabregasM {
     public static final int MAX_ENTRADES = 10; // Longitud dels arrays i nombre màxim de pacients a introduïr
     public static final int MIN_BOOLEA = 0, MAX_BOOLEA = 1;
     public static final int MAX_COLUMN = 5;
+
     public static final int COLUMNTIS = 0;
     public static final int COLUMNSIMPTOMA = 1;
     public static final int COLUMNEXPLORACIO = 2;
     public static final int COLUMPRIORITAT = 3;
     public static final int COLUMTEMPERATURA = 4;
+
 
     // Variables constants simptoma i exploració
     public static final int SI_0 = 0, SI_1 = 1, SI_2 = 2, SI_3 = 3;
@@ -111,6 +113,7 @@ public class P4_SanchezM_FabregasM {
         int[][] dadesPacient = new int[MAX_ENTRADES][MAX_COLUMN];
         // copiem els arrys dintre del array bidimensional
         for (int i = 0; i < dadesPacient.length; i++) {
+
             dadesPacient[i][COLUMNTIS] = tisArray[i];
             dadesPacient[i][COLUMNSIMPTOMA] = simptomaArray[i];
             dadesPacient[i][COLUMNEXPLORACIO] = exploracioArray[i];
@@ -125,6 +128,7 @@ public class P4_SanchezM_FabregasM {
         System.out.println("Llista de Pacients");
         System.out.println("Tis\t\tSimptoma\texploracio\tprioritat\ttemperatura");
         for (int i = 0; i < numPacients; i++) {
+
             System.out.println(pacientDades[i][COLUMNTIS] + "\t\t" + pacientDades[i][COLUMNSIMPTOMA] + "\t\t\t" + pacientDades[i][COLUMNEXPLORACIO] + "\t\t\t"
                             + pacientDades[i][COLUMPRIORITAT] + "\t\t\t" + pacientDades[i][COLUMTEMPERATURA]);
         }
@@ -276,7 +280,9 @@ public class P4_SanchezM_FabregasM {
                 exploracioArray[contadorPacients - 1] = exploracio;
                 prioritatArray[contadorPacients - 1] = prioritat;
                 temperaturaArray[contadorPacients - 1] = temperatura;
+
                 dadesPacients = crearArrayBidimensional(tisArray, simptomaArray, exploracioArray, prioritatArray, temperaturaArray);
+
             }
 
             // imprimim el contador de pacients (independentment que hi hagi error o no)
@@ -565,6 +571,7 @@ public class P4_SanchezM_FabregasM {
         } else {
             llegirDadesPacients(dadesPacients, contadorPacients);
         }
+
 
     }
 }
