@@ -2,7 +2,7 @@
 // * This project is licensed under the GNU GPL v3.0
 // * https://www.gnu.org/licenses/gpl-3.0.html
 // ******************************************************************************************
-//	@file Version: 4 beta 1
+//	@file Version: 4 beta 3
 //	@file Name: P4_SanchezM_FabregasM.java
 //	@file Authors: Juanma Sánchez & Jordi Fàbregas
 
@@ -324,11 +324,11 @@ public class P4_SanchezM_FabregasM {
             // System.out.printf(*Format:...., +Args: -----)
             System.out.printf("%-15s %-30s %-35s %-25s %-20s\n", "TIS", "Símptoma", "Exploració", "Nivell prioritat", "Temperatura actual");
 
-            for (int i = 0; i < tisArray.length; i++) {
+            for (int i = 0; i < MAX_ENTRADES; i++) {
                 // Utiltizem la variable TIS per validar la linea. Descartant totes les que tinguin el valor per defecte.
-                if (tisArray[i] != 0) {
-                    simptoma = simptomaArray[i];
-                    exploracio = exploracioArray[i];
+                if (dadesPacients[i][COLUMNTIS] != 0) {
+                    simptoma = dadesPacients[i][COLUMNSIMPTOMA];
+                    exploracio = dadesPacients[i][COLUMNEXPLORACIO];
 
                     switch (simptoma) {
                         case SI_0: // Dolor 
@@ -390,7 +390,7 @@ public class P4_SanchezM_FabregasM {
                     }
 
                     //System.out.print(tisArray[i]+" "+simptomaString+" "+exploracioString+" "+prioritatArray[i]+" "+temperaturaArray[i] + "\n"); 
-                    System.out.printf("%-15d %-30s %-35s %-25d %-20d\n", tisArray[i], simptomaString, exploracioString, prioritatArray[i], temperaturaArray[i]);
+                    System.out.printf("%-15d %-30s %-35s %-25d %-20d\n", dadesPacients[i][COLUMNTIS], simptomaString, exploracioString, dadesPacients[i][COLUMPRIORITAT], dadesPacients[i][COLUMTEMPERATURA]);
                 }
             } // Sortim del bucle de imprimir pacients
         }
@@ -416,29 +416,32 @@ public class P4_SanchezM_FabregasM {
             // Es defineix un segon bucle
             for (int j = 1; j < (MAX_ENTRADES - i); j++) {
                 //comprovem si la prioitat de l'element actual és més petit que el següent
-                if (prioritatArray[j - 1] < prioritatArray[j]) {
+                if (dadesPacients[j - 1][COLUMPRIORITAT] < dadesPacients[j][COLUMPRIORITAT]) {
+                //if (prioritatArray[j - 1] < prioritatArray[j]) {
 
                     // Si és més petit, els intercanviem utilitzant la variable temporal.
-                    temp = prioritatArray[j - 1];
-                    prioritatArray[j - 1] = prioritatArray[j];
-                    prioritatArray[j] = temp;
+                    temp = dadesPacients[j - 1][COLUMPRIORITAT];
+                    dadesPacients[j - 1][COLUMPRIORITAT] = dadesPacients[j][COLUMPRIORITAT];
+                    dadesPacients[j][COLUMPRIORITAT] = temp;
 
                     // Ordenem per prioritat, pero hem de canviar l'ordre a tots els arrays
-                    temp = tisArray[j - 1];
-                    tisArray[j - 1] = tisArray[j];
-                    tisArray[j] = temp;
+                    temp = dadesPacients[j - 1][COLUMNTIS];
+                    dadesPacients[j - 1][COLUMNTIS] = dadesPacients[j][COLUMNTIS];
+                    dadesPacients[j][COLUMNTIS] = temp;
 
-                    temp = simptomaArray[j - 1];
-                    simptomaArray[j - 1] = simptomaArray[j];
-                    simptomaArray[j] = temp;
+                    // Si és més petit, els intercanviem utilitzant la variable temporal.
+                    temp = dadesPacients[j - 1][COLUMNSIMPTOMA];
+                    dadesPacients[j - 1][COLUMNSIMPTOMA] = dadesPacients[j][COLUMNSIMPTOMA];
+                    dadesPacients[j][COLUMNSIMPTOMA] = temp;
 
-                    temp = exploracioArray[j - 1];
-                    exploracioArray[j - 1] = exploracioArray[j];
-                    exploracioArray[j] = temp;
+                    // Ordenem per prioritat, pero hem de canviar l'ordre a tots els arrays
+                    temp = dadesPacients[j - 1][COLUMNEXPLORACIO];
+                    dadesPacients[j - 1][COLUMNEXPLORACIO] = dadesPacients[j][COLUMNEXPLORACIO];
+                    dadesPacients[j][COLUMNEXPLORACIO] = temp;
 
-                    temp = temperaturaArray[j - 1];
-                    temperaturaArray[j - 1] = temperaturaArray[j];
-                    temperaturaArray[j] = temp;
+                    temp = dadesPacients[j - 1][COLUMTEMPERATURA];
+                    dadesPacients[j - 1][COLUMTEMPERATURA] = dadesPacients[j][COLUMTEMPERATURA];
+                    dadesPacients[j][COLUMTEMPERATURA] = temp;
                 }
 
             }
@@ -450,11 +453,11 @@ public class P4_SanchezM_FabregasM {
             // System.out.printf(*Format:...., +Args: -----)
             System.out.printf("%-15s %-30s %-35s %-25s %-20s\n", "TIS", "Símptoma", "Exploració", "Nivell prioritat", "Temperatura actual");
 
-            for (int i = 0; i < tisArray.length; i++) {
+            for (int i = 0; i < dadesPacients[0].length; i++) {
                 // Utiltizem la variable TIS per validar la linea. Descartant totes les que tinguin el valor per defecte.
-                if (tisArray[i] != 0 && simptomaArray[i] == simptomaSelleccionat) {
-                    simptoma = simptomaArray[i];
-                    exploracio = exploracioArray[i];
+                if (dadesPacients[i][COLUMNTIS] != 0 && dadesPacients[i][COLUMNSIMPTOMA] == simptomaSelleccionat) {
+                    simptoma = dadesPacients[i][COLUMNSIMPTOMA];
+                    exploracio = dadesPacients[i][COLUMNEXPLORACIO];
 
                     switch (simptoma) {
                         case SI_0: // Dolor 
@@ -516,7 +519,7 @@ public class P4_SanchezM_FabregasM {
                     }
 
                     //System.out.print(tisArray[i]+" "+simptomaString+" "+exploracioString+" "+prioritatArray[i]+" "+temperaturaArray[i] + "\n"); 
-                    System.out.printf("%-15d %-30s %-35s %-25d %-20d\n", tisArray[i], simptomaString, exploracioString, prioritatArray[i], temperaturaArray[i]);
+                    System.out.printf("%-15d %-30s %-35s %-25d %-20d\n", dadesPacients[i][COLUMNTIS], simptomaString, exploracioString, dadesPacients[i][COLUMPRIORITAT], dadesPacients[i][COLUMTEMPERATURA]);
                 }
             } // Sortim del bucle de imprimir pacients
         }
@@ -529,17 +532,17 @@ public class P4_SanchezM_FabregasM {
             System.out.println("Número de pacients per símptomes:");
 
             // Recorrem l'array de simptoma i comptem
-            for (int i = 0; i < simptomaArray.length; i++) {
-                if (simptomaArray[i] == 0 && tisArray[i] != 0) { // Utilitzem la variable tis per descartar els usuaris buits del array
+            for (int i = 0; i < dadesPacients[COLUMNSIMPTOMA].length; i++) {
+                if (dadesPacients[i][COLUMNSIMPTOMA] == 0 && dadesPacients[i][COLUMNTIS] != 0) { // Utilitzem la variable tis per descartar els usuaris buits del array
                     contadorDolor++;
                 }
-                if (simptomaArray[i] == 1) {
+                if (dadesPacients[i][COLUMNSIMPTOMA] == 1) {
                     contadorLesio++;
                 }
-                if (simptomaArray[i] == 2) {
+                if (dadesPacients[i][COLUMNSIMPTOMA] == 2) {
                     contadorFebra++;
                 }
-                if (simptomaArray[i] == 3) {
+                if (dadesPacients[i][COLUMNSIMPTOMA] == 3) {
                     contadorConfusio++;
                 }
 
@@ -553,10 +556,10 @@ public class P4_SanchezM_FabregasM {
 
 
             // Recorrem l'Array de prioritat i sumem les prioritats
-            for (int i = 0; i < prioritatArray.length; i++) {
+            for (int i = 0; i < dadesPacients[COLUMPRIORITAT].length; i++) {
 
-                if (tisArray[i] != 0) {
-                    contadorPrior[prioritatArray[i]]++;
+                if (dadesPacients[i][COLUMNTIS] != 0) {
+                    contadorPrior[dadesPacients[i][COLUMPRIORITAT]]++;
                 }
             }
 
@@ -566,12 +569,13 @@ public class P4_SanchezM_FabregasM {
             // Tanquem l'scanner
             scanner.close();
         }
+        
         if (contadorPacients == 0) {
             System.out.println("No hi ha cap pacient en el registre");
         } else {
             llegirDadesPacients(dadesPacients, contadorPacients);
         }
-
+        
 
     }
 }
