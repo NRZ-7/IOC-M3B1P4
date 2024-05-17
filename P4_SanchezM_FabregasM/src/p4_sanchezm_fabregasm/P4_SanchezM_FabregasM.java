@@ -324,7 +324,7 @@ public class P4_SanchezM_FabregasM {
             // System.out.printf(*Format:...., +Args: -----)
             System.out.printf("%-15s %-30s %-35s %-25s %-20s\n", "TIS", "Símptoma", "Exploració", "Nivell prioritat", "Temperatura actual");
 
-            for (int i = 0; i < MAX_ENTRADES; i++) {
+            for (int i = 0; i < contadorPacients; i++) {
                 // Utiltizem la variable TIS per validar la linea. Descartant totes les que tinguin el valor per defecte.
                 if (dadesPacients[i][COLUMNTIS] != 0) {
                     simptoma = dadesPacients[i][COLUMNSIMPTOMA];
@@ -412,9 +412,9 @@ public class P4_SanchezM_FabregasM {
         // Ordenació bombolla per prioritat
         int temp = 0; // Creem una variable temporal per intercanviar nombres
         // Definim un bucle que es repetirà per l'array de codis
-        for (int i = 0; i < MAX_ENTRADES; i++) {
+        for (int i = 0; i < contadorPacients; i++) {
             // Es defineix un segon bucle
-            for (int j = 1; j < (MAX_ENTRADES - i); j++) {
+            for (int j = 1; j < (contadorPacients - i); j++) {
                 //comprovem si la prioitat de l'element actual és més petit que el següent
                 if (dadesPacients[j - 1][COLUMPRIORITAT] < dadesPacients[j][COLUMPRIORITAT]) {
                 //if (prioritatArray[j - 1] < prioritatArray[j]) {
@@ -453,7 +453,7 @@ public class P4_SanchezM_FabregasM {
             // System.out.printf(*Format:...., +Args: -----)
             System.out.printf("%-15s %-30s %-35s %-25s %-20s\n", "TIS", "Símptoma", "Exploració", "Nivell prioritat", "Temperatura actual");
 
-            for (int i = 0; i < dadesPacients[0].length; i++) {
+            for (int i = 0; i < contadorPacients; i++) {
                 // Utiltizem la variable TIS per validar la linea. Descartant totes les que tinguin el valor per defecte.
                 if (dadesPacients[i][COLUMNTIS] != 0 && dadesPacients[i][COLUMNSIMPTOMA] == simptomaSelleccionat) {
                     simptoma = dadesPacients[i][COLUMNSIMPTOMA];
@@ -532,7 +532,7 @@ public class P4_SanchezM_FabregasM {
             System.out.println("Número de pacients per símptomes:");
 
             // Recorrem l'array de simptoma i comptem
-            for (int i = 0; i < dadesPacients[COLUMNSIMPTOMA].length; i++) {
+            for (int i = 0; i < contadorPacients; i++) {
                 if (dadesPacients[i][COLUMNSIMPTOMA] == 0 && dadesPacients[i][COLUMNTIS] != 0) { // Utilitzem la variable tis per descartar els usuaris buits del array
                     contadorDolor++;
                 }
@@ -556,7 +556,7 @@ public class P4_SanchezM_FabregasM {
 
 
             // Recorrem l'Array de prioritat i sumem les prioritats
-            for (int i = 0; i < dadesPacients[COLUMPRIORITAT].length; i++) {
+            for (int i = 0; i < contadorPacients; i++) {
 
                 if (dadesPacients[i][COLUMNTIS] != 0) {
                     contadorPrior[dadesPacients[i][COLUMPRIORITAT]]++;
