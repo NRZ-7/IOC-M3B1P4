@@ -25,6 +25,13 @@ public class P4_SanchezM_FabregasM {
     public static final int MIN_BOOLEA = 0, MAX_BOOLEA = 1;
     public static final int MAX_COLUMN = 5;
 
+    public static final int COLUMNTIS = 0;
+    public static final int COLUMNSIMPTOMA = 1;
+    public static final int COLUMNEXPLORACIO = 2;
+    public static final int COLUMPRIORITAT = 3;
+    public static final int COLUMTEMPERATURA = 4;
+
+
     // Variables constants simptoma i exploració
     public static final int SI_0 = 0, SI_1 = 1, SI_2 = 2, SI_3 = 3;
     public static final int EX_0 = 0, EX_1 = 1, EX_2 = 2, EX_3 = 3;
@@ -106,11 +113,12 @@ public class P4_SanchezM_FabregasM {
         int[][] dadesPacient = new int[MAX_ENTRADES][MAX_COLUMN];
         // copiem els arrys dintre del array bidimensional
         for (int i = 0; i < dadesPacient.length; i++) {
-            dadesPacient[i][0] = tisArray[i];
-            dadesPacient[i][1] = simptomaArray[i];
-            dadesPacient[i][2] = exploracioArray[i];
-            dadesPacient[i][3] = prioritatArray[i];
-            dadesPacient[i][4] = temperturaArray[i];
+
+            dadesPacient[i][COLUMNTIS] = tisArray[i];
+            dadesPacient[i][COLUMNSIMPTOMA] = simptomaArray[i];
+            dadesPacient[i][COLUMNEXPLORACIO] = exploracioArray[i];
+            dadesPacient[i][COLUMPRIORITAT] = prioritatArray[i];
+            dadesPacient[i][COLUMTEMPERATURA] = temperturaArray[i];
         }
         return dadesPacient;
     }
@@ -120,12 +128,11 @@ public class P4_SanchezM_FabregasM {
         System.out.println("Llista de Pacients");
         System.out.println("Tis\t\tSimptoma\texploracio\tprioritat\ttemperatura");
         for (int i = 0; i < numPacients; i++) {
-            System.out.println(pacientDades[i][0] + "\t\t" + pacientDades[i][1] + "\t\t\t" + pacientDades[i][2] + "\t\t\t" + pacientDades[i][3] + "\t\t\t" + pacientDades[i][4]);
 
-
+            System.out.println(pacientDades[i][COLUMNTIS] + "\t\t" + pacientDades[i][COLUMNSIMPTOMA] + "\t\t\t" + pacientDades[i][COLUMNEXPLORACIO] + "\t\t\t"
+                            + pacientDades[i][COLUMPRIORITAT] + "\t\t\t" + pacientDades[i][COLUMTEMPERATURA]);
         }
     }
-
 
     //////////////////////
     // MÈTODE PRINCIPAL //
