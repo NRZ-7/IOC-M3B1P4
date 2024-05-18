@@ -123,19 +123,6 @@ public class P4_SanchezM_FabregasM {
         return dadesPacient;
     }
     
-    /*
-    public static void llegirDadesPacients(int[][] pacientDades, int numPacients) {
-        System.out.println("---------------------");
-        System.out.println("Llista de Pacients");
-        System.out.println("Tis\t\tSimptoma\texploracio\tprioritat\ttemperatura");
-        for (int i = 0; i < numPacients; i++) {
-
-            System.out.println(pacientDades[i][COLUMNTIS] + "\t\t" + pacientDades[i][COLUMNSIMPTOMA] + "\t\t\t" + pacientDades[i][COLUMNEXPLORACIO] + "\t\t\t"
-                            + pacientDades[i][COLUMPRIORITAT] + "\t\t\t" + pacientDades[i][COLUMTEMPERATURA]);
-        }
-    }
-    */
-
     //////////////////////
     // MÈTODE PRINCIPAL //
     //////////////////////
@@ -149,8 +136,6 @@ public class P4_SanchezM_FabregasM {
 
         int filtrarSimptoma = 0, simptomaSelleccionat = 0, estadistiques = 0;
 
-        int contadorDolor = 0, contadorLesio = 0, contadorFebra = 0, contadorConfusio = 0;
-
         String exploracio0 = "", exploracio1 = "", exploracio2 = "", exploracio3 = "";
         int contadorPacients = 0;
         boolean sortir = false;
@@ -163,7 +148,8 @@ public class P4_SanchezM_FabregasM {
         int[] temperaturaArray = new int[MAX_ENTRADES];
         int[][] dadesPacients = new int[MAX_ENTRADES][MAX_COLUMN];
 
-        int[] contadorPrior = {0, 0, 0, 0, 0, 0}; // Aquest array és a part. NO MULTIDIMENSIONAL
+        int[] contadorSimptoma = {0, 0, 0, 0}; // Aquests arrays són a part. NO BIDIMENSIONALS
+        int[] contadorPrior = {0, 0, 0, 0, 0, 0}; 
 
         // Definim un bucle a l'inici del programa que en arribar al final del mateix es repetirà a no ser que no es desitji sortir
         while (!sortir) {
@@ -530,26 +516,18 @@ public class P4_SanchezM_FabregasM {
             System.out.println("\nNúmero de pacients introduïts:" + contadorPacients);
             System.out.println("Número de pacients per símptomes:");
 
-            // Recorrem l'array de simptoma i comptem
-            for (int i = 0; i < contadorPacients; i++) {
-                if (dadesPacients[i][COLUMNSIMPTOMA] == SI_0 && dadesPacients[i][COLUMNTIS] != 0) { // Utilitzem la variable tis per descartar els usuaris buits del array
-                    contadorDolor++;
-                }
-                if (dadesPacients[i][COLUMNSIMPTOMA] == SI_1) {
-                    contadorLesio++;
-                }
-                if (dadesPacients[i][COLUMNSIMPTOMA] == SI_2) {
-                    contadorFebra++;
-                }
-                if (dadesPacients[i][COLUMNSIMPTOMA] == SI_3) {
-                    contadorConfusio++;
-                }
 
+            // Recorrem l'Array de simptoma i sumem els tipus de símptomes
+            for (int i = 0; i < contadorPacients; i++) {
+
+                if (dadesPacients[i][COLUMNTIS] != 0) {
+                    contadorSimptoma[dadesPacients[i][COLUMNSIMPTOMA]]++;
+                }
             }
 
             // Imprimim les estadístiques
             System.out.printf("%-2s %-10s %-20s %-15s %-20s\n", "", "Dolor:", "Lesió traumàtica:", "Febra alta:", "Confusió o desorientació");
-            System.out.printf("%-2s %-10d %-20d %-15d %-20d\n", "", contadorDolor, contadorLesio, contadorFebra, contadorConfusio);
+            System.out.printf("%-2s %-10d %-20d %-15d %-20d\n", "", contadorSimptoma[0], contadorSimptoma[1], contadorSimptoma[2], contadorSimptoma[3]);
 
             System.out.println("Comptador de pacients per prioritat:");
 
@@ -568,13 +546,6 @@ public class P4_SanchezM_FabregasM {
             // Tanquem l'scanner
             scanner.close();
         }
-        /*/
-        if (contadorPacients == 0) {
-            System.out.println("No hi ha cap pacient en el registre");
-        } else {
-            llegirDadesPacients(dadesPacients, contadorPacients);
-        }
-        */
 
     }
 }
