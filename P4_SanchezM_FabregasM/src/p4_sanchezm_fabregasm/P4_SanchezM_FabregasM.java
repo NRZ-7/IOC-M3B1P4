@@ -122,7 +122,8 @@ public class P4_SanchezM_FabregasM {
         }
         return dadesPacient;
     }
-
+    
+    /*
     public static void llegirDadesPacients(int[][] pacientDades, int numPacients) {
         System.out.println("---------------------");
         System.out.println("Llista de Pacients");
@@ -133,6 +134,7 @@ public class P4_SanchezM_FabregasM {
                             + pacientDades[i][COLUMPRIORITAT] + "\t\t\t" + pacientDades[i][COLUMTEMPERATURA]);
         }
     }
+    */
 
     //////////////////////
     // MÈTODE PRINCIPAL //
@@ -429,12 +431,10 @@ public class P4_SanchezM_FabregasM {
                     dadesPacients[j - 1][COLUMNTIS] = dadesPacients[j][COLUMNTIS];
                     dadesPacients[j][COLUMNTIS] = temp;
 
-                    // Si és més petit, els intercanviem utilitzant la variable temporal.
                     temp = dadesPacients[j - 1][COLUMNSIMPTOMA];
                     dadesPacients[j - 1][COLUMNSIMPTOMA] = dadesPacients[j][COLUMNSIMPTOMA];
                     dadesPacients[j][COLUMNSIMPTOMA] = temp;
 
-                    // Ordenem per prioritat, pero hem de canviar l'ordre a tots els arrays
                     temp = dadesPacients[j - 1][COLUMNEXPLORACIO];
                     dadesPacients[j - 1][COLUMNEXPLORACIO] = dadesPacients[j][COLUMNEXPLORACIO];
                     dadesPacients[j][COLUMNEXPLORACIO] = temp;
@@ -518,13 +518,12 @@ public class P4_SanchezM_FabregasM {
 
                     }
 
-                    //System.out.print(tisArray[i]+" "+simptomaString+" "+exploracioString+" "+prioritatArray[i]+" "+temperaturaArray[i] + "\n"); 
                     System.out.printf("%-15d %-30s %-35s %-25d %-20d\n", dadesPacients[i][COLUMNTIS], simptomaString, exploracioString, dadesPacients[i][COLUMPRIORITAT], dadesPacients[i][COLUMTEMPERATURA]);
                 }
             } // Sortim del bucle de imprimir pacients
         }
 
-        estadistiques = introduirSencer("Vols veure un resum estadístic de les dades", MIN_BOOLEA, MAX_BOOLEA);
+        estadistiques = introduirSencer("Vols veure un resum estadístic de les dades?", MIN_BOOLEA, MAX_BOOLEA);
 
         // Si selecciona 1 mostrem estadístiques
         if (estadistiques == 1 && !error) {
@@ -533,16 +532,16 @@ public class P4_SanchezM_FabregasM {
 
             // Recorrem l'array de simptoma i comptem
             for (int i = 0; i < contadorPacients; i++) {
-                if (dadesPacients[i][COLUMNSIMPTOMA] == 0 && dadesPacients[i][COLUMNTIS] != 0) { // Utilitzem la variable tis per descartar els usuaris buits del array
+                if (dadesPacients[i][COLUMNSIMPTOMA] == SI_0 && dadesPacients[i][COLUMNTIS] != 0) { // Utilitzem la variable tis per descartar els usuaris buits del array
                     contadorDolor++;
                 }
-                if (dadesPacients[i][COLUMNSIMPTOMA] == 1) {
+                if (dadesPacients[i][COLUMNSIMPTOMA] == SI_1) {
                     contadorLesio++;
                 }
-                if (dadesPacients[i][COLUMNSIMPTOMA] == 2) {
+                if (dadesPacients[i][COLUMNSIMPTOMA] == SI_2) {
                     contadorFebra++;
                 }
-                if (dadesPacients[i][COLUMNSIMPTOMA] == 3) {
+                if (dadesPacients[i][COLUMNSIMPTOMA] == SI_3) {
                     contadorConfusio++;
                 }
 
@@ -569,13 +568,13 @@ public class P4_SanchezM_FabregasM {
             // Tanquem l'scanner
             scanner.close();
         }
-        
+        /*/
         if (contadorPacients == 0) {
             System.out.println("No hi ha cap pacient en el registre");
         } else {
             llegirDadesPacients(dadesPacients, contadorPacients);
         }
-        
+        */
 
     }
 }
