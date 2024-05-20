@@ -2,7 +2,7 @@
 // * This project is licensed under the GNU GPL v3.0
 // * https://www.gnu.org/licenses/gpl-3.0.html
 // ******************************************************************************************
-//	@file Version: 4 beta 3
+//	@file Version: 4.0
 //	@file Name: P4_SanchezM_FabregasM.java
 //	@file Authors: Juanma Sánchez & Jordi Fàbregas
 
